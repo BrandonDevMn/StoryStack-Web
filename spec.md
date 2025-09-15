@@ -176,12 +176,27 @@ Build a Progressive Web App (PWA) called **StoryShelf** using vanilla HTML + Jav
 
 ## File Structure
 
-Create a single HTML file containing:
+Create three separate files for better organization and maintainability:
 
+**index.html:**
 - HTML structure with semantic markup
-- Embedded CSS in `<style>` tags with organized sections
-- Embedded JavaScript in `<script>` tags with clear function separation
+- PWA meta tags and configuration
 - Embedded Web App Manifest (base64 encoded)
+- References to external CSS and JavaScript files
+
+**styles.css:**
+- Reset and base styles
+- Mobile-first responsive design
+- Component-specific styling with clear organization
+- Animation and transition definitions
+- Purple gradient theme (#667eea to #764ba2)
+
+**script.js:**
+- Book processing and validation functions
+- Random selection algorithm
+- UI update and state management
+- Tab navigation functionality
+- Event listeners and initialization
 
 External dependencies:
 
