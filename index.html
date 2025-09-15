@@ -21,6 +21,7 @@
 
 <!-- Web App Manifest -->
 <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlN0b3J5U2hlbGYiLAogICJzaG9ydF9uYW1lIjogIlN0b3J5U2hlbGYiLAogICJkZXNjcmlwdGlvbiI6ICJSYW5kb21seSBwaWNrIHlvdXIgbmV4dCByZWFkIGZyb20geW91ciBUQlIgbGlzdCIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzY2N2VlYSIsCiAgInRoZW1lX2NvbG9yIjogIiM2NjdlZWEiLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdC1wcmltYXJ5IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaWNvbi5qcGciLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL2pwZWciLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiCiAgICB9CiAgXQp9">
+
 <style>
     /* Reset and base styles */
     * {
@@ -269,75 +270,211 @@
     .loading.show {
         display: block;
     }
+
+    /* Tab Navigation */
+    .tab-container {
+        margin-top: 32px;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .tab-nav {
+        display: flex;
+        background: #f8fafc;
+        border-radius: 12px 12px 0 0;
+        overflow: hidden;
+    }
+
+    .tab-btn {
+        flex: 1;
+        padding: 16px 24px;
+        background: transparent;
+        border: none;
+        font-size: 16px;
+        font-weight: 600;
+        color: #718096;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        min-height: 56px;
+        touch-action: manipulation;
+    }
+
+    .tab-btn.active {
+        background: white;
+        color: #4a5568;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-btn:hover:not(.active) {
+        background: #edf2f7;
+        color: #4a5568;
+    }
+
+    .tab-content {
+        background: white;
+        padding: 24px;
+        border-radius: 0 0 12px 12px;
+        min-height: 200px;
+    }
+
+    .tab-pane {
+        display: none;
+    }
+
+    .tab-pane.active {
+        display: block;
+    }
+
+    /* About page styles */
+    .about-content {
+        text-align: center;
+    }
+
+    .about-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #4a5568;
+        margin-bottom: 16px;
+    }
+
+    .about-description {
+        font-size: 16px;
+        color: #718096;
+        line-height: 1.6;
+        margin-bottom: 32px;
+    }
+
+    .about-links {
+        margin-bottom: 24px;
+    }
+
+    .about-link {
+        display: inline-block;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: transform 0.2s ease;
+        margin: 8px;
+    }
+
+    .about-link:hover {
+        transform: translateY(-2px);
+        text-decoration: none;
+        color: white;
+    }
+
+    .about-credit {
+        font-size: 14px;
+        color: #a0aec0;
+        font-style: italic;
+    }
 </style>
 ```
 
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1 class="title">📚 StoryShelf</h1>
-            <p class="subtitle">What should I read next?</p>
-        </div>
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <div class="tab-nav">
+                <button class="tab-btn active" data-tab="picker">📚 Picker</button>
+                <button class="tab-btn" data-tab="about">ℹ️ About</button>
+            </div>
 
 ```
-    <!-- Input Section -->
-    <div class="input-section">
-        <label for="bookList" class="input-label">Your To-Be-Read List</label>
-        <textarea 
-            id="bookList" 
-            class="book-textarea" 
-            placeholder="Enter your books, one per line:
+        <div class="tab-content">
+            <!-- Picker Tab -->
+            <div id="picker-tab" class="tab-pane active">
+                <!-- Header -->
+                <div class="header">
+                    <h1 class="title">📚 StoryShelf</h1>
+                    <p class="subtitle">What should I read next?</p>
+                </div>
+
+                <!-- Input Section -->
+                <div class="input-section">
+                    <label for="bookList" class="input-label">Your To-Be-Read List</label>
+                    <textarea 
+                        id="bookList" 
+                        class="book-textarea" 
+                        placeholder="Enter your books, one per line:
 ```
 
 The Seven Husbands of Evelyn Hugo by Taylor Jenkins Reid
 Project Hail Mary by Andy Weir
 Klara and the Sun by Kazuo Ishiguro
 The Midnight Library by Matt Haig
-Circe by Madeline Miller”
-></textarea>
+Circe by Madeline Miller”></textarea>
 </div>
 
 ```
-    <!-- Pick Books Button -->
-    <button id="pickBooksBtn" class="btn btn-primary">
-        Pick My Next Books
-    </button>
+                <!-- Pick Books Button -->
+                <button id="pickBooksBtn" class="btn btn-primary">
+                    Pick My Next Books
+                </button>
 
-    <!-- Error Message -->
-    <div id="errorMessage" class="error"></div>
+                <!-- Error Message -->
+                <div id="errorMessage" class="error"></div>
 
-    <!-- Loading State -->
-    <div id="loadingMessage" class="loading">
-        Selecting your perfect reads...
-    </div>
+                <!-- Loading State -->
+                <div id="loadingMessage" class="loading">
+                    Selecting your perfect reads...
+                </div>
 
-    <!-- Results Section -->
-    <div id="resultsSection" class="results">
-        <div class="results-header">
-            <h2 class="results-title">Your Reading Picks</h2>
-            <p class="results-subtitle">Happy reading! 📖</p>
+                <!-- Results Section -->
+                <div id="resultsSection" class="results">
+                    <div class="results-header">
+                        <h2 class="results-title">Your Reading Picks</h2>
+                        <p class="results-subtitle">Happy reading! 📖</p>
+                    </div>
+
+                    <div id="nextRead" class="book-pick next-read">
+                        <div class="pick-label">Next Read</div>
+                        <div class="book-title" id="nextReadTitle"></div>
+                    </div>
+
+                    <div id="backupChoice" class="book-pick backup">
+                        <div class="pick-label">Backup Choice</div>
+                        <div class="book-title" id="backupTitle"></div>
+                    </div>
+
+                    <div id="alternativePick" class="book-pick alternative">
+                        <div class="pick-label">Alternative Pick</div>
+                        <div class="book-title" id="alternativeTitle"></div>
+                    </div>
+
+                    <button id="pickAgainBtn" class="btn btn-secondary">
+                        Pick Again
+                    </button>
+                </div>
+            </div>
+
+            <!-- About Tab -->
+            <div id="about-tab" class="tab-pane">
+                <div class="about-content">
+                    <h2 class="about-title">About StoryShelf</h2>
+                    <p class="about-description">
+                        StoryShelf helps you overcome choice paralysis when facing your ever-growing to-be-read pile. 
+                        Simply paste your book list and let us randomly select your next reading adventure!
+                    </p>
+                    <p class="about-description">
+                        Perfect for book lovers who have too many great options and need a little help deciding 
+                        what to read next. Sometimes the best choice is letting chance decide! 📚✨
+                    </p>
+                    <div class="about-links">
+                        <a href="https://github.com/BrandonDevMn/StoryStack-Web/tree/main?tab=readme-ov-file" 
+                           class="about-link" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            🔗 View Source Code
+                        </a>
+                    </div>
+                    <p class="about-credit">Made by Claude</p>
+                </div>
+            </div>
         </div>
-
-        <div id="nextRead" class="book-pick next-read">
-            <div class="pick-label">Next Read</div>
-            <div class="book-title" id="nextReadTitle"></div>
-        </div>
-
-        <div id="backupChoice" class="book-pick backup">
-            <div class="pick-label">Backup Choice</div>
-            <div class="book-title" id="backupTitle"></div>
-        </div>
-
-        <div id="alternativePick" class="book-pick alternative">
-            <div class="pick-label">Alternative Pick</div>
-            <div class="book-title" id="alternativeTitle"></div>
-        </div>
-
-        <button id="pickAgainBtn" class="btn btn-secondary">
-            Pick Again
-        </button>
     </div>
 </div>
 
@@ -459,6 +596,24 @@ Circe by Madeline Miller”
     // Event listeners
     pickBooksBtn.addEventListener('click', pickBooks);
     pickAgainBtn.addEventListener('click', pickAgain);
+
+    // Tab functionality
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetTab = btn.getAttribute('data-tab');
+            
+            // Remove active class from all tabs and panes
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabPanes.forEach(p => p.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding pane
+            btn.classList.add('active');
+            document.getElementById(targetTab + '-tab').classList.add('active');
+        });
+    });
 
     // Allow Enter key to trigger book picking (when not in textarea)
     document.addEventListener('keydown', (e) => {

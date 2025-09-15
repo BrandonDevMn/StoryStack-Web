@@ -6,6 +6,14 @@ Build a Progressive Web App (PWA) called **StoryShelf** using vanilla HTML + Jav
 
 ## Core Functionality
 
+### Tab Navigation System
+
+- **Two-tab interface** with bottom navigation
+- **Picker Tab** (📚) - Contains all book selection functionality (default active)
+- **About Tab** (ℹ️) - Contains app information, source code link, and attribution
+- **Touch-friendly tab buttons** with smooth transitions
+- **Active state indicators** for current tab selection
+
 ### Input Processing
 
 - Accept a list of books from the user via a textarea
@@ -65,17 +73,27 @@ Build a Progressive Web App (PWA) called **StoryShelf** using vanilla HTML + Jav
 ### Layout Structure
 
 ```
-[Header: "📚 StoryShelf"]
-[Subtitle: "What should I read next?"]
-[Large textarea for book list input with placeholder examples]
-[Pick My Next Books button]
-[Error message area (hidden by default)]
-[Loading message (hidden by default)]
-[Results section (hidden initially)]
-  - Next Read: [selected book] (green theme)
-  - Backup Choice: [selected book] (orange theme)
-  - Alternative Pick: [selected book] (blue theme)
-[Pick Again button]
+[Tab Navigation]
+  - 📚 Picker (active by default)
+  - ℹ️ About
+
+[Picker Tab Content:]
+  [Header: "📚 StoryShelf"]
+  [Subtitle: "What should I read next?"]
+  [Large textarea for book list input with placeholder examples]
+  [Pick My Next Books button]
+  [Error message area (hidden by default)]
+  [Loading message (hidden by default)]
+  [Results section (hidden initially)]
+    - Next Read: [selected book] (green theme)
+    - Backup Choice: [selected book] (orange theme)
+    - Alternative Pick: [selected book] (blue theme)
+  [Pick Again button]
+
+[About Tab Content:]
+  [App description and purpose]
+  [Link to source code repository]
+  [Attribution: "Made by Claude"]
 ```
 
 ### Styling Requirements
