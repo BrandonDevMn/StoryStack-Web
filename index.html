@@ -1,639 +1,119 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>StoryShelf</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>StoryShelf - What should I read next?</title>
 
-```
-<!-- Progressive Web App (PWA) meta tags -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="StoryShelf">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#667eea">
+  <!-- PWA Configuration -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="StoryShelf">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#667eea">
 
-<!-- Icons -->
-<link rel="icon" type="image/jpeg" href="icon.jpg">
-<link rel="apple-touch-icon" href="icon.jpg">
-<link rel="apple-touch-icon-precomposed" href="icon.jpg">
-
-<!-- Web App Manifest -->
-<link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlN0b3J5U2hlbGYiLAogICJzaG9ydF9uYW1lIjogIlN0b3J5U2hlbGYiLAogICJkZXNjcmlwdGlvbiI6ICJSYW5kb21seSBwaWNrIHlvdXIgbmV4dCByZWFkIGZyb20geW91ciBUQlIgbGlzdCIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzY2N2VlYSIsCiAgInRoZW1lX2NvbG9yIjogIiM2NjdlZWEiLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdC1wcmltYXJ5IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaWNvbi5qcGciLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL2pwZWciLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiCiAgICB9CiAgXQp9">
-
-<style>
-    /* Reset and base styles */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        padding: 20px;
-        color: #333;
-    }
-
-    /* Main container */
-    .container {
-        max-width: 600px;
-        margin: 0 auto;
-        background: white;
-        border-radius: 16px;
-        padding: 24px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Header */
-    .header {
-        text-align: center;
-        margin-bottom: 32px;
-    }
-
-    .title {
-        font-size: 28px;
-        font-weight: 700;
-        color: #4a5568;
-        margin-bottom: 8px;
-    }
-
-    .subtitle {
-        font-size: 16px;
-        color: #718096;
-        font-weight: 400;
-    }
-
-    /* Input section */
-    .input-section {
-        margin-bottom: 24px;
-    }
-
-    .input-label {
-        display: block;
-        font-size: 16px;
-        font-weight: 600;
-        color: #4a5568;
-        margin-bottom: 12px;
-    }
-
-    .book-textarea {
-        width: 100%;
-        min-height: 200px;
-        padding: 16px;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        font-size: 16px;
-        font-family: inherit;
-        resize: vertical;
-        transition: border-color 0.2s ease;
-    }
-
-    .book-textarea:focus {
-        outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-
-    .book-textarea::placeholder {
-        color: #a0aec0;
-    }
-
-    /* Buttons */
-    .btn {
-        width: 100%;
-        padding: 16px 24px;
-        font-size: 18px;
-        font-weight: 600;
-        border: none;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        min-height: 56px;
-        touch-action: manipulation;
-    }
-
-    .btn-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        margin-bottom: 24px;
-    }
-
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
-    }
-
-    .btn-secondary {
-        background: #f7fafc;
-        color: #4a5568;
-        border: 2px solid #e2e8f0;
-    }
-
-    .btn-secondary:hover {
-        background: #edf2f7;
-        border-color: #cbd5e0;
-    }
-
-    .btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-    }
-
-    /* Results section */
-    .results {
-        display: none;
-        animation: fadeIn 0.5s ease;
-    }
-
-    .results.show {
-        display: block;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .results-header {
-        text-align: center;
-        margin-bottom: 24px;
-    }
-
-    .results-title {
-        font-size: 22px;
-        font-weight: 700;
-        color: #4a5568;
-        margin-bottom: 8px;
-    }
-
-    .results-subtitle {
-        font-size: 14px;
-        color: #718096;
-    }
-
-    /* Book picks */
-    .book-pick {
-        background: #f8fafc;
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 16px;
-        border-left: 4px solid;
-    }
-
-    .book-pick.next-read {
-        border-left-color: #48bb78;
-        background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
-    }
-
-    .book-pick.backup {
-        border-left-color: #ed8936;
-        background: linear-gradient(135deg, #fffaf0 0%, #fbd38d 100%);
-    }
-
-    .book-pick.alternative {
-        border-left-color: #667eea;
-        background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
-    }
-
-    .pick-label {
-        font-size: 14px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 8px;
-    }
-
-    .next-read .pick-label { color: #2f855a; }
-    .backup .pick-label { color: #c05621; }
-    .alternative .pick-label { color: #4c51bf; }
-
-    .book-title {
-        font-size: 18px;
-        font-weight: 600;
-        color: #2d3748;
-        line-height: 1.4;
-        word-wrap: break-word;
-    }
-
-    /* Error message */
-    .error {
-        background: #fed7d7;
-        color: #c53030;
-        padding: 16px;
-        border-radius: 12px;
-        margin-bottom: 16px;
-        font-weight: 500;
-        text-align: center;
-        display: none;
-    }
-
-    .error.show {
-        display: block;
-    }
-
-    /* Responsive design */
-    @media (max-width: 480px) {
-        .container {
-            padding: 20px;
-            margin: 10px;
-            border-radius: 12px;
-        }
-
-        .title {
-            font-size: 24px;
-        }
-
-        .book-textarea {
-            min-height: 160px;
-            padding: 14px;
-        }
-
-        .btn {
-            font-size: 16px;
-            padding: 14px 20px;
-        }
-    }
-
-    /* Loading state */
-    .loading {
-        display: none;
-        text-align: center;
-        color: #718096;
-        font-style: italic;
-    }
-
-    .loading.show {
-        display: block;
-    }
-
-    /* Tab Navigation */
-    .tab-container {
-        margin-top: 32px;
-        border-top: 1px solid #e2e8f0;
-    }
-
-    .tab-nav {
-        display: flex;
-        background: #f8fafc;
-        border-radius: 12px 12px 0 0;
-        overflow: hidden;
-    }
-
-    .tab-btn {
-        flex: 1;
-        padding: 16px 24px;
-        background: transparent;
-        border: none;
-        font-size: 16px;
-        font-weight: 600;
-        color: #718096;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        min-height: 56px;
-        touch-action: manipulation;
-    }
-
-    .tab-btn.active {
-        background: white;
-        color: #4a5568;
-        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .tab-btn:hover:not(.active) {
-        background: #edf2f7;
-        color: #4a5568;
-    }
-
-    .tab-content {
-        background: white;
-        padding: 24px;
-        border-radius: 0 0 12px 12px;
-        min-height: 200px;
-    }
-
-    .tab-pane {
-        display: none;
-    }
-
-    .tab-pane.active {
-        display: block;
-    }
-
-    /* About page styles */
-    .about-content {
-        text-align: center;
-    }
-
-    .about-title {
-        font-size: 24px;
-        font-weight: 700;
-        color: #4a5568;
-        margin-bottom: 16px;
-    }
-
-    .about-description {
-        font-size: 16px;
-        color: #718096;
-        line-height: 1.6;
-        margin-bottom: 32px;
-    }
-
-    .about-links {
-        margin-bottom: 24px;
-    }
-
-    .about-link {
-        display: inline-block;
-        padding: 12px 24px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: transform 0.2s ease;
-        margin: 8px;
-    }
-
-    .about-link:hover {
-        transform: translateY(-2px);
-        text-decoration: none;
-        color: white;
-    }
-
-    .about-credit {
-        font-size: 14px;
-        color: #a0aec0;
-        font-style: italic;
-    }
-</style>
-```
-
+  <!-- Icons -->
+  <link rel="icon" type="image/jpeg" href="icon.jpg">
+  <link rel="apple-touch-icon" href="icon.jpg">
+  <link rel="apple-touch-icon-precomposed" href="icon.jpg">
+  <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiU3RvcnlTaGVsZiIsInNob3J0X25hbWUiOiJTdG9yeVNoZWxmIiwiZGVzY3JpcHRpb24iOiJSYW5kb21seSBzZWxlY3QgYm9va3MgZnJvbSB5b3VyIFRCUiBsaXN0IiwiaWNvbnMiOlt7InNyYyI6Imljb24uanBnIiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL2pwZWcifV0sInN0YXJ0X3VybCI6Ii4vIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJ0aGVtZV9jb2xvciI6IiM2NjdlZWEiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI2ZmZmZmZiIsIm9yaWVudGF0aW9uIjoicG9ydHJhaXQiLCJzY29wZSI6Ii4vIn0=">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Tab Navigation -->
-        <div class="tab-container">
-            <div class="tab-nav">
-                <button class="tab-btn active" data-tab="picker">📚 Picker</button>
-                <button class="tab-btn" data-tab="about">ℹ️ About</button>
-            </div>
+  <div class="container">
+    <!-- Picker Tab Content -->
+    <div id="pickerTab" class="tab-content active">
+      <div class="header">
+        <h1 class="app-title">📚 StoryShelf</h1>
+        <p class="app-subtitle">What should I read next?</p>
+      </div>
 
-```
-        <div class="tab-content">
-            <!-- Picker Tab -->
-            <div id="picker-tab" class="tab-pane active">
-                <!-- Header -->
-                <div class="header">
-                    <h1 class="title">📚 StoryShelf</h1>
-                    <p class="subtitle">What should I read next?</p>
-                </div>
-
-                <!-- Input Section -->
-                <div class="input-section">
-                    <label for="bookList" class="input-label">Your To-Be-Read List</label>
-                    <textarea 
-                        id="bookList" 
-                        class="book-textarea" 
-                        placeholder="Enter your books, one per line:
-```
+      <div class="form-section">
+        <div class="textarea-container">
+          <textarea
+            id="bookList"
+            placeholder="Enter your to-be-read list, one book per line:
 
 The Seven Husbands of Evelyn Hugo by Taylor Jenkins Reid
 Project Hail Mary by Andy Weir
-Klara and the Sun by Kazuo Ishiguro
 The Midnight Library by Matt Haig
-Circe by Madeline Miller”></textarea>
-</div>
-
-```
-                <!-- Pick Books Button -->
-                <button id="pickBooksBtn" class="btn btn-primary">
-                    Pick My Next Books
-                </button>
-
-                <!-- Error Message -->
-                <div id="errorMessage" class="error"></div>
-
-                <!-- Loading State -->
-                <div id="loadingMessage" class="loading">
-                    Selecting your perfect reads...
-                </div>
-
-                <!-- Results Section -->
-                <div id="resultsSection" class="results">
-                    <div class="results-header">
-                        <h2 class="results-title">Your Reading Picks</h2>
-                        <p class="results-subtitle">Happy reading! 📖</p>
-                    </div>
-
-                    <div id="nextRead" class="book-pick next-read">
-                        <div class="pick-label">Next Read</div>
-                        <div class="book-title" id="nextReadTitle"></div>
-                    </div>
-
-                    <div id="backupChoice" class="book-pick backup">
-                        <div class="pick-label">Backup Choice</div>
-                        <div class="book-title" id="backupTitle"></div>
-                    </div>
-
-                    <div id="alternativePick" class="book-pick alternative">
-                        <div class="pick-label">Alternative Pick</div>
-                        <div class="book-title" id="alternativeTitle"></div>
-                    </div>
-
-                    <button id="pickAgainBtn" class="btn btn-secondary">
-                        Pick Again
-                    </button>
-                </div>
-            </div>
-
-            <!-- About Tab -->
-            <div id="about-tab" class="tab-pane">
-                <div class="about-content">
-                    <h2 class="about-title">About StoryShelf</h2>
-                    <p class="about-description">
-                        StoryShelf helps you overcome choice paralysis when facing your ever-growing to-be-read pile. 
-                        Simply paste your book list and let us randomly select your next reading adventure!
-                    </p>
-                    <p class="about-description">
-                        Perfect for book lovers who have too many great options and need a little help deciding 
-                        what to read next. Sometimes the best choice is letting chance decide! 📚✨
-                    </p>
-                    <div class="about-links">
-                        <a href="https://github.com/BrandonDevMn/StoryStack-Web/tree/main?tab=readme-ov-file" 
-                           class="about-link" 
-                           target="_blank" 
-                           rel="noopener noreferrer">
-                            🔗 View Source Code
-                        </a>
-                    </div>
-                    <p class="about-credit">Made by Claude</p>
-                </div>
-            </div>
+Klara and the Sun by Kazuo Ishiguro
+The Song of Achilles by Madeline Miller"
+          ></textarea>
         </div>
+
+        <button id="pickBooksBtn" class="btn btn-primary">Pick My Next Books</button>
+
+        <div id="errorMessage" class="message error-message"></div>
+        <div id="loadingMessage" class="message loading-message">Selecting your perfect reads…</div>
+
+        <div id="results" class="results">
+          <div id="nextRead" class="book-pick pick-next">
+            <div class="pick-label">Next Read</div>
+            <div class="pick-book"></div>
+          </div>
+
+          <div id="backupChoice" class="book-pick pick-backup">
+            <div class="pick-label">Backup Choice</div>
+            <div class="pick-book"></div>
+          </div>
+
+          <div id="alternativePick" class="book-pick pick-alternative">
+            <div class="pick-label">Alternative Pick</div>
+            <div class="pick-book"></div>
+          </div>
+
+          <button id="pickAgainBtn" class="btn btn-secondary">Pick Again</button>
+        </div>
+      </div>
     </div>
-</div>
 
-<script>
-    // Global variables
-    let bookList = [];
-    
-    // DOM elements
-    const bookTextarea = document.getElementById('bookList');
-    const pickBooksBtn = document.getElementById('pickBooksBtn');
-    const pickAgainBtn = document.getElementById('pickAgainBtn');
-    const resultsSection = document.getElementById('resultsSection');
-    const errorMessage = document.getElementById('errorMessage');
-    const loadingMessage = document.getElementById('loadingMessage');
-    const nextReadTitle = document.getElementById('nextReadTitle');
-    const backupTitle = document.getElementById('backupTitle');
-    const alternativeTitle = document.getElementById('alternativeTitle');
+    <!-- About Tab Content -->
+    <div id="aboutTab" class="tab-content">
+      <div class="header">
+        <h1 class="app-title">📚 StoryShelf</h1>
+      </div>
 
-    // Process the book list from textarea
-    function processBookList() {
-        const rawText = bookTextarea.value.trim();
-        
-        if (!rawText) {
-            showError("Please add some books to your TBR list!");
-            return false;
-        }
+      <div class="about-content">
+        <div class="about-section">
+          <h3>About StoryShelf</h3>
+          <p>StoryShelf helps you decide what to read next from your ever-growing to-be-read (TBR) list. Simply paste your book list, and let StoryShelf randomly select three prioritized reading recommendations for you.</p>
+          <p>Perfect for book lovers who struggle with choice paralysis when facing their towering book collections!</p>
+        </div>
 
-        // Split by newlines and filter out empty lines
-        bookList = rawText
-            .split('\n')
-            .map(book => book.trim())
-            .filter(book => book.length > 0);
+        <div class="about-section">
+          <h3>How It Works</h3>
+          <p>1. Add your TBR list (one book per line)</p>
+          <p>2. Tap "Pick My Next Books"</p>
+          <p>3. Get three curated picks: your priority read, backup choice, and alternative option</p>
+          <p>4. Don't like the selection? Just pick again!</p>
+        </div>
 
-        if (bookList.length < 3) {
-            showError("Add at least 3 books to get recommendations!");
-            return false;
-        }
+        <div class="about-section">
+          <h3>Source Code</h3>
+          <p>StoryShelf is open source! Check out the code on <a href="https://github.com/BrandonDevMn/StoryStack-Web" class="about-link" target="_blank">GitHub</a>.</p>
+        </div>
 
-        hideError();
-        return true;
-    }
+        <div class="about-section">
+          <h3>Attribution</h3>
+          <p>Made by Claude</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    // Select 3 random books from the list
-    function selectBooks() {
-        const selectedIndices = new Set();
-        const picks = [];
+  <!-- Tab Navigation -->
+  <nav class="tab-navigation">
+    <button id="pickerTabBtn" class="tab-button active" data-tab="pickerTab">
+      <span class="tab-icon">📚</span>
+      <span>Picker</span>
+    </button>
+    <button id="aboutTabBtn" class="tab-button" data-tab="aboutTab">
+      <span class="tab-icon">ℹ️</span>
+      <span>About</span>
+    </button>
+  </nav>
 
-        // Ensure we get 3 different books
-        while (picks.length < 3 && picks.length < bookList.length) {
-            const randomIndex = Math.floor(Math.random() * bookList.length);
-            
-            if (!selectedIndices.has(randomIndex)) {
-                selectedIndices.add(randomIndex);
-                picks.push(bookList[randomIndex]);
-            }
-        }
-
-        return picks;
-    }
-
-    // Display the selected books
-    function displayBookPicks(picks) {
-        nextReadTitle.textContent = picks[0];
-        backupTitle.textContent = picks[1];
-        alternativeTitle.textContent = picks[2];
-
-        resultsSection.classList.add('show');
-    }
-
-    // Show error message
-    function showError(message) {
-        errorMessage.textContent = message;
-        errorMessage.classList.add('show');
-    }
-
-    // Hide error message
-    function hideError() {
-        errorMessage.classList.remove('show');
-    }
-
-    // Show loading state
-    function showLoading() {
-        loadingMessage.classList.add('show');
-        pickBooksBtn.disabled = true;
-    }
-
-    // Hide loading state
-    function hideLoading() {
-        loadingMessage.classList.remove('show');
-        pickBooksBtn.disabled = false;
-    }
-
-    // Main function to pick books
-    function pickBooks() {
-        hideError();
-        
-        if (!processBookList()) {
-            return;
-        }
-
-        showLoading();
-
-        // Add a small delay for better UX
-        setTimeout(() => {
-            const selectedBooks = selectBooks();
-            displayBookPicks(selectedBooks);
-            hideLoading();
-        }, 500);
-    }
-
-    // Pick again with the same book list
-    function pickAgain() {
-        hideError();
-        
-        const selectedBooks = selectBooks();
-        displayBookPicks(selectedBooks);
-    }
-
-    // Event listeners
-    pickBooksBtn.addEventListener('click', pickBooks);
-    pickAgainBtn.addEventListener('click', pickAgain);
-
-    // Tab functionality
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabPanes = document.querySelectorAll('.tab-pane');
-
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const targetTab = btn.getAttribute('data-tab');
-            
-            // Remove active class from all tabs and panes
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabPanes.forEach(p => p.classList.remove('active'));
-            
-            // Add active class to clicked tab and corresponding pane
-            btn.classList.add('active');
-            document.getElementById(targetTab + '-tab').classList.add('active');
-        });
-    });
-
-    // Allow Enter key to trigger book picking (when not in textarea)
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && e.target !== bookTextarea) {
-            e.preventDefault();
-            if (resultsSection.classList.contains('show')) {
-                pickAgain();
-            } else {
-                pickBooks();
-            }
-        }
-    });
-
-    // Auto-resize textarea on mobile
-    bookTextarea.addEventListener('input', function() {
-        this.style.height = 'auto';
-        this.style.height = Math.max(this.scrollHeight, 200) + 'px';
-    });
-</script>
-```
-
+  <script src="script.js"></script>
 </body>
 </html>
