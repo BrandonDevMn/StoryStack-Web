@@ -4,23 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Random Line Picker</title>
-    <style>
-        /* Base styles and reset */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    <title>StoryShelf</title>
 
 ```
+<!-- Progressive Web App (PWA) meta tags -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="StoryShelf">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#667eea">
+
+<!-- Icons -->
+<link rel="icon" type="image/jpeg" href="icon.jpg">
+<link rel="apple-touch-icon" href="icon.jpg">
+<link rel="apple-touch-icon-precomposed" href="icon.jpg">
+
+<!-- Web App Manifest -->
+<link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlN0b3J5U2hlbGYiLAogICJzaG9ydF9uYW1lIjogIlN0b3J5U2hlbGYiLAogICJkZXNjcmlwdGlvbiI6ICJSYW5kb21seSBwaWNrIHlvdXIgbmV4dCByZWFkIGZyb20geW91ciBUQlIgbGlzdCIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzY2N2VlYSIsCiAgInRoZW1lX2NvbG9yIjogIiM2NjdlZWEiLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdC1wcmltYXJ5IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaWNvbi5qcGciLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL2pwZWciLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiCiAgICB9CiAgXQp9">
+<style>
+    /* Reset and base styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
     body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        line-height: 1.6;
-        color: #333;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         padding: 20px;
+        color: #333;
     }
 
     /* Main container */
@@ -29,67 +43,66 @@
         margin: 0 auto;
         background: white;
         border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        overflow: hidden;
+        padding: 24px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
 
     /* Header */
     .header {
-        background: #4CAF50;
-        color: white;
-        padding: 24px;
         text-align: center;
+        margin-bottom: 32px;
     }
 
-    .header h1 {
+    .title {
         font-size: 28px;
-        font-weight: 600;
+        font-weight: 700;
+        color: #4a5568;
         margin-bottom: 8px;
     }
 
-    .header p {
-        opacity: 0.9;
+    .subtitle {
         font-size: 16px;
+        color: #718096;
+        font-weight: 400;
     }
 
     /* Input section */
     .input-section {
-        padding: 24px;
+        margin-bottom: 24px;
     }
 
     .input-label {
         display: block;
-        margin-bottom: 12px;
-        font-weight: 600;
-        color: #555;
         font-size: 16px;
+        font-weight: 600;
+        color: #4a5568;
+        margin-bottom: 12px;
     }
 
-    .text-input {
+    .book-textarea {
         width: 100%;
-        height: 200px;
+        min-height: 200px;
         padding: 16px;
-        border: 2px solid #ddd;
+        border: 2px solid #e2e8f0;
         border-radius: 12px;
         font-size: 16px;
         font-family: inherit;
         resize: vertical;
+        transition: border-color 0.2s ease;
+    }
+
+    .book-textarea:focus {
         outline: none;
-        transition: border-color 0.3s ease;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
 
-    .text-input:focus {
-        border-color: #4CAF50;
-        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-    }
-
-    .text-input::placeholder {
-        color: #999;
+    .book-textarea::placeholder {
+        color: #a0aec0;
     }
 
     /* Buttons */
     .btn {
-        display: block;
         width: 100%;
         padding: 16px 24px;
         font-size: 18px;
@@ -97,151 +110,164 @@
         border: none;
         border-radius: 12px;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
         min-height: 56px;
         touch-action: manipulation;
     }
 
     .btn-primary {
-        background: #4CAF50;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        margin-top: 20px;
+        margin-bottom: 24px;
     }
 
-    .btn-primary:hover, .btn-primary:active {
-        background: #45a049;
-        transform: translateY(-1px);
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
     }
 
     .btn-secondary {
-        background: #2196F3;
-        color: white;
-        margin-top: 16px;
+        background: #f7fafc;
+        color: #4a5568;
+        border: 2px solid #e2e8f0;
     }
 
-    .btn-secondary:hover, .btn-secondary:active {
-        background: #1976D2;
-        transform: translateY(-1px);
+    .btn-secondary:hover {
+        background: #edf2f7;
+        border-color: #cbd5e0;
     }
 
     .btn:disabled {
-        background: #ccc;
+        opacity: 0.6;
         cursor: not-allowed;
         transform: none;
     }
 
     /* Results section */
-    .results-section {
-        padding: 24px;
-        background: #f8f9fa;
-        border-top: 1px solid #eee;
+    .results {
         display: none;
+        animation: fadeIn 0.5s ease;
     }
 
-    .results-section.show {
+    .results.show {
         display: block;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .results-header {
+        text-align: center;
+        margin-bottom: 24px;
     }
 
     .results-title {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 20px;
-        text-align: center;
-        color: #333;
+        font-size: 22px;
+        font-weight: 700;
+        color: #4a5568;
+        margin-bottom: 8px;
     }
 
-    .winner-item {
-        background: white;
-        padding: 16px 20px;
-        margin-bottom: 12px;
-        border-radius: 12px;
-        border-left: 5px solid;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .winner-item:last-child {
-        margin-bottom: 0;
-    }
-
-    .winner-item.first {
-        border-left-color: #FFD700;
-        background: linear-gradient(135deg, #fff9c4 0%, #ffffff 100%);
-    }
-
-    .winner-item.second {
-        border-left-color: #C0C0C0;
-        background: linear-gradient(135deg, #f0f0f0 0%, #ffffff 100%);
-    }
-
-    .winner-item.third {
-        border-left-color: #CD7F32;
-        background: linear-gradient(135deg, #ffe4d1 0%, #ffffff 100%);
-    }
-
-    .winner-place {
-        font-weight: 600;
+    .results-subtitle {
         font-size: 14px;
-        color: #666;
-        margin-bottom: 4px;
+        color: #718096;
+    }
+
+    /* Book picks */
+    .book-pick {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 16px;
+        border-left: 4px solid;
+    }
+
+    .book-pick.next-read {
+        border-left-color: #48bb78;
+        background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+    }
+
+    .book-pick.backup {
+        border-left-color: #ed8936;
+        background: linear-gradient(135deg, #fffaf0 0%, #fbd38d 100%);
+    }
+
+    .book-pick.alternative {
+        border-left-color: #667eea;
+        background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+    }
+
+    .pick-label {
+        font-size: 14px;
+        font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+        margin-bottom: 8px;
     }
 
-    .winner-text {
-        font-size: 16px;
-        color: #333;
+    .next-read .pick-label { color: #2f855a; }
+    .backup .pick-label { color: #c05621; }
+    .alternative .pick-label { color: #4c51bf; }
+
+    .book-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2d3748;
+        line-height: 1.4;
         word-wrap: break-word;
     }
 
-    /* Error messages */
-    .error-message {
-        background: #ffebee;
-        color: #c62828;
+    /* Error message */
+    .error {
+        background: #fed7d7;
+        color: #c53030;
         padding: 16px;
-        border-radius: 8px;
-        margin-top: 16px;
-        border: 1px solid #ffcdd2;
+        border-radius: 12px;
+        margin-bottom: 16px;
+        font-weight: 500;
+        text-align: center;
         display: none;
     }
 
-    .error-message.show {
+    .error.show {
         display: block;
-    }
-
-    /* Loading state */
-    .loading {
-        opacity: 0.7;
-        pointer-events: none;
     }
 
     /* Responsive design */
     @media (max-width: 480px) {
-        body {
-            padding: 12px;
+        .container {
+            padding: 20px;
+            margin: 10px;
+            border-radius: 12px;
         }
 
-        .header {
-            padding: 20px 16px;
-        }
-
-        .header h1 {
+        .title {
             font-size: 24px;
         }
 
-        .input-section, .results-section {
-            padding: 20px 16px;
+        .book-textarea {
+            min-height: 160px;
+            padding: 14px;
         }
 
-        .text-input {
-            height: 180px;
+        .btn {
+            font-size: 16px;
+            padding: 14px 20px;
         }
     }
 
-    /* Landscape orientation adjustments */
-    @media (orientation: landscape) and (max-height: 500px) {
-        .text-input {
-            height: 120px;
-        }
+    /* Loading state */
+    .loading {
+        display: none;
+        text-align: center;
+        color: #718096;
+        font-style: italic;
+    }
+
+    .loading.show {
+        display: block;
     }
 </style>
 ```
@@ -251,216 +277,205 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>🎲 Random Line Picker</h1>
-            <p>Enter your list and pick 3 random winners!</p>
+            <h1 class="title">📚 StoryShelf</h1>
+            <p class="subtitle">What should I read next?</p>
         </div>
 
 ```
     <!-- Input Section -->
     <div class="input-section">
-        <label for="textInput" class="input-label">
-            Enter your list (one item per line):
-        </label>
+        <label for="bookList" class="input-label">Your To-Be-Read List</label>
         <textarea 
-            id="textInput" 
-            class="text-input" 
-            placeholder="John Smith&#10;Jane Doe&#10;Bob Johnson&#10;Sarah Wilson&#10;Mike Davis&#10;..."></textarea>
-        
-        <button id="pickButton" class="btn btn-primary" onclick="pickWinners()">
-            🎯 Pick Winners
-        </button>
+            id="bookList" 
+            class="book-textarea" 
+            placeholder="Enter your books, one per line:
+```
 
-        <div id="errorMessage" class="error-message"></div>
+The Seven Husbands of Evelyn Hugo by Taylor Jenkins Reid
+Project Hail Mary by Andy Weir
+Klara and the Sun by Kazuo Ishiguro
+The Midnight Library by Matt Haig
+Circe by Madeline Miller”
+></textarea>
+</div>
+
+```
+    <!-- Pick Books Button -->
+    <button id="pickBooksBtn" class="btn btn-primary">
+        Pick My Next Books
+    </button>
+
+    <!-- Error Message -->
+    <div id="errorMessage" class="error"></div>
+
+    <!-- Loading State -->
+    <div id="loadingMessage" class="loading">
+        Selecting your perfect reads...
     </div>
 
     <!-- Results Section -->
-    <div id="resultsSection" class="results-section">
-        <h2 class="results-title">🏆 Winners</h2>
-        
-        <div class="winner-item first">
-            <div class="winner-place">🥇 Winner (1st Place)</div>
-            <div id="firstPlace" class="winner-text"></div>
+    <div id="resultsSection" class="results">
+        <div class="results-header">
+            <h2 class="results-title">Your Reading Picks</h2>
+            <p class="results-subtitle">Happy reading! 📖</p>
         </div>
 
-        <div class="winner-item second">
-            <div class="winner-place">🥈 2nd Place</div>
-            <div id="secondPlace" class="winner-text"></div>
+        <div id="nextRead" class="book-pick next-read">
+            <div class="pick-label">Next Read</div>
+            <div class="book-title" id="nextReadTitle"></div>
         </div>
 
-        <div class="winner-item third">
-            <div class="winner-place">🥉 3rd Place</div>
-            <div id="thirdPlace" class="winner-text"></div>
+        <div id="backupChoice" class="book-pick backup">
+            <div class="pick-label">Backup Choice</div>
+            <div class="book-title" id="backupTitle"></div>
         </div>
 
-        <button id="rerollButton" class="btn btn-secondary" onclick="reroll()">
-            🔄 Reroll Winners
+        <div id="alternativePick" class="book-pick alternative">
+            <div class="pick-label">Alternative Pick</div>
+            <div class="book-title" id="alternativeTitle"></div>
+        </div>
+
+        <button id="pickAgainBtn" class="btn btn-secondary">
+            Pick Again
         </button>
     </div>
 </div>
 
 <script>
-    // Global variables to store processed lines
-    let processedLines = [];
+    // Global variables
+    let bookList = [];
+    
+    // DOM elements
+    const bookTextarea = document.getElementById('bookList');
+    const pickBooksBtn = document.getElementById('pickBooksBtn');
+    const pickAgainBtn = document.getElementById('pickAgainBtn');
+    const resultsSection = document.getElementById('resultsSection');
+    const errorMessage = document.getElementById('errorMessage');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const nextReadTitle = document.getElementById('nextReadTitle');
+    const backupTitle = document.getElementById('backupTitle');
+    const alternativeTitle = document.getElementById('alternativeTitle');
 
-    /**
-     * Process the input text and split it into valid lines
-     */
-    function processText(text) {
-        if (!text || text.trim() === '') {
-            return [];
+    // Process the book list from textarea
+    function processBookList() {
+        const rawText = bookTextarea.value.trim();
+        
+        if (!rawText) {
+            showError("Please add some books to your TBR list!");
+            return false;
         }
 
-        // Split on newlines and filter out empty/whitespace-only lines
-        const lines = text.split('\n')
-            .map(line => line.trim())
-            .filter(line => line.length > 0);
+        // Split by newlines and filter out empty lines
+        bookList = rawText
+            .split('\n')
+            .map(book => book.trim())
+            .filter(book => book.length > 0);
 
-        return lines;
+        if (bookList.length < 3) {
+            showError("Add at least 3 books to get recommendations!");
+            return false;
+        }
+
+        hideError();
+        return true;
     }
 
-    /**
-     * Generate random winners from the processed lines
-     */
-    function selectWinners(lines) {
-        if (lines.length < 3) {
-            return null;
-        }
+    // Select 3 random books from the list
+    function selectBooks() {
+        const selectedIndices = new Set();
+        const picks = [];
 
-        const winners = [];
-        const usedIndices = new Set();
-
-        // Select 3 unique random lines
-        while (winners.length < 3) {
-            const randomIndex = Math.floor(Math.random() * lines.length);
+        // Ensure we get 3 different books
+        while (picks.length < 3 && picks.length < bookList.length) {
+            const randomIndex = Math.floor(Math.random() * bookList.length);
             
-            if (!usedIndices.has(randomIndex)) {
-                usedIndices.add(randomIndex);
-                winners.push(lines[randomIndex]);
+            if (!selectedIndices.has(randomIndex)) {
+                selectedIndices.add(randomIndex);
+                picks.push(bookList[randomIndex]);
             }
         }
 
-        return winners;
+        return picks;
     }
 
-    /**
-     * Display the selected winners in the results section
-     */
-    function displayResults(winners) {
-        document.getElementById('firstPlace').textContent = winners[0];
-        document.getElementById('secondPlace').textContent = winners[1];
-        document.getElementById('thirdPlace').textContent = winners[2];
+    // Display the selected books
+    function displayBookPicks(picks) {
+        nextReadTitle.textContent = picks[0];
+        backupTitle.textContent = picks[1];
+        alternativeTitle.textContent = picks[2];
 
-        // Show results section
-        document.getElementById('resultsSection').classList.add('show');
-        
-        // Scroll to results on mobile
-        setTimeout(() => {
-            document.getElementById('resultsSection').scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }, 100);
+        resultsSection.classList.add('show');
     }
 
-    /**
-     * Show error message to user
-     */
+    // Show error message
     function showError(message) {
-        const errorElement = document.getElementById('errorMessage');
-        errorElement.textContent = message;
-        errorElement.classList.add('show');
+        errorMessage.textContent = message;
+        errorMessage.classList.add('show');
     }
 
-    /**
-     * Hide error message
-     */
+    // Hide error message
     function hideError() {
-        const errorElement = document.getElementById('errorMessage');
-        errorElement.classList.remove('show');
+        errorMessage.classList.remove('show');
     }
 
-    /**
-     * Main function to pick winners from input text
-     */
-    function pickWinners() {
+    // Show loading state
+    function showLoading() {
+        loadingMessage.classList.add('show');
+        pickBooksBtn.disabled = true;
+    }
+
+    // Hide loading state
+    function hideLoading() {
+        loadingMessage.classList.remove('show');
+        pickBooksBtn.disabled = false;
+    }
+
+    // Main function to pick books
+    function pickBooks() {
         hideError();
         
-        const textInput = document.getElementById('textInput');
-        const inputText = textInput.value;
-
-        // Add loading state
-        document.body.classList.add('loading');
-
-        // Simulate brief processing time for better UX
-        setTimeout(() => {
-            // Process the input text
-            processedLines = processText(inputText);
-
-            // Validate input
-            if (processedLines.length === 0) {
-                showError('Please enter some text with at least one line.');
-                document.body.classList.remove('loading');
-                return;
-            }
-
-            if (processedLines.length < 3) {
-                showError(`You need at least 3 lines to pick winners. You have ${processedLines.length} line(s).`);
-                document.body.classList.remove('loading');
-                return;
-            }
-
-            // Select winners
-            const winners = selectWinners(processedLines);
-            
-            if (winners) {
-                displayResults(winners);
-            } else {
-                showError('Something went wrong while selecting winners. Please try again.');
-            }
-
-            document.body.classList.remove('loading');
-        }, 200);
-    }
-
-    /**
-     * Reroll winners using the same processed lines
-     */
-    function reroll() {
-        if (processedLines.length < 3) {
-            showError('No valid data to reroll. Please enter new text.');
+        if (!processBookList()) {
             return;
         }
 
-        hideError();
-        
-        // Add brief loading state
-        document.body.classList.add('loading');
-        
-        setTimeout(() => {
-            const winners = selectWinners(processedLines);
-            
-            if (winners) {
-                displayResults(winners);
-            } else {
-                showError('Something went wrong while rerolling. Please try again.');
-            }
+        showLoading();
 
-            document.body.classList.remove('loading');
-        }, 150);
+        // Add a small delay for better UX
+        setTimeout(() => {
+            const selectedBooks = selectBooks();
+            displayBookPicks(selectedBooks);
+            hideLoading();
+        }, 500);
     }
 
-    // Handle Enter key in textarea (optional convenience feature)
-    document.getElementById('textInput').addEventListener('keydown', function(event) {
-        // Ctrl/Cmd + Enter to trigger pick winners
-        if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
-            event.preventDefault();
-            pickWinners();
+    // Pick again with the same book list
+    function pickAgain() {
+        hideError();
+        
+        const selectedBooks = selectBooks();
+        displayBookPicks(selectedBooks);
+    }
+
+    // Event listeners
+    pickBooksBtn.addEventListener('click', pickBooks);
+    pickAgainBtn.addEventListener('click', pickAgain);
+
+    // Allow Enter key to trigger book picking (when not in textarea)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && e.target !== bookTextarea) {
+            e.preventDefault();
+            if (resultsSection.classList.contains('show')) {
+                pickAgain();
+            } else {
+                pickBooks();
+            }
         }
     });
 
-    // Auto-hide error when user starts typing
-    document.getElementById('textInput').addEventListener('input', function() {
-        hideError();
+    // Auto-resize textarea on mobile
+    bookTextarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = Math.max(this.scrollHeight, 200) + 'px';
     });
 </script>
 ```
