@@ -1,0 +1,266 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* Container and layout */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  min-height: calc(100vh - 80px);
+  backdrop-filter: blur(10px);
+}
+
+/* Tab navigation */
+.tab-navigation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  z-index: 1000;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 16px;
+  border: none;
+  background: white;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.tab-button.active {
+  color: #667eea;
+  background: #f8f9ff;
+}
+
+.tab-icon {
+  font-size: 24px;
+}
+
+/* Tab content */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.app-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #667eea;
+  margin-bottom: 10px;
+}
+
+.app-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  font-weight: 300;
+}
+
+/* Form elements */
+.form-section {
+  margin-bottom: 30px;
+}
+
+.textarea-container {
+  margin-bottom: 20px;
+}
+
+#bookList {
+  width: 100%;
+  min-height: 200px;
+  padding: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 16px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+#bookList:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 16px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.btn-secondary {
+  background: #f8f9ff;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+.btn-secondary:hover {
+  background: #667eea;
+  color: white;
+}
+
+/* Messages */
+.message {
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.error-message {
+  background: #fee;
+  color: #c33;
+  border: 1px solid #fcc;
+  display: none;
+}
+
+.loading-message {
+  background: #e8f4fd;
+  color: #0066cc;
+  border: 1px solid #bee5eb;
+  display: none;
+}
+
+/* Results section */
+.results {
+  display: none;
+  margin-top: 30px;
+}
+
+.book-pick {
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.pick-next {
+  background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+  color: white;
+}
+
+.pick-backup {
+  background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+  color: white;
+}
+
+.pick-alternative {
+  background: linear-gradient(135deg, #2196f3 0%, #64b5f6 100%);
+  color: white;
+}
+
+.pick-label {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.pick-book {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* About tab styles */
+.about-content {
+  padding: 20px 0;
+}
+
+.about-section {
+  margin-bottom: 30px;
+}
+
+.about-section h3 {
+  color: #667eea;
+  margin-bottom: 12px;
+  font-size: 1.4rem;
+}
+
+.about-section p {
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.about-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.about-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .app-title {
+    font-size: 2rem;
+  }
+
+  .btn {
+    padding: 16px;
+    font-size: 16px;
+  }
+}
+
+/* Hidden class utility */
+.hidden {
+  display: none !important;
+}
