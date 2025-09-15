@@ -1,0 +1,51 @@
+{
+    "name": "StoryShelf",
+    "short_name": "StoryShelf",
+    "description": "What should I read next? StoryShelf helps you decide by randomly selecting books from your to-be-read list.",
+    "start_url": "./index.html",
+    "scope": "./",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "theme_color": "#667eea",
+    "background_color": "#ffffff",
+    "lang": "en-US",
+    "categories": ["books", "entertainment", "lifestyle", "productivity"],
+    "icons": [
+        {
+            "src": "icon.jpg",
+            "sizes": "180x180",
+            "type": "image/jpeg",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "icon.jpg",
+            "sizes": "512x512",
+            "type": "image/jpeg",
+            "purpose": "any"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Pick Books",
+            "short_name": "Pick Books",
+            "description": "Quickly pick your next books to read",
+            "url": "./index.html#picker",
+            "icons": [
+                {
+                    "src": "icon.jpg",
+                    "sizes": "192x192",
+                    "type": "image/jpeg"
+                }
+            ]
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "icon.jpg",
+            "sizes": "320x640",
+            "type": "image/jpeg",
+            "platform": "narrow",
+            "label": "StoryShelf book picker interface"
+        }
+    ]
+}

@@ -1,119 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>StoryShelf - What should I read next?</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>StoryShelf - What should I read next?</title>
 
-  <!-- PWA Configuration -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="StoryShelf">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#667eea">
+    <!-- PWA Configuration -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="StoryShelf">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#667eea">
 
-  <!-- Icons -->
-  <link rel="icon" type="image/jpeg" href="icon.jpg">
-  <link rel="apple-touch-icon" href="icon.jpg">
-  <link rel="apple-touch-icon-precomposed" href="icon.jpg">
-  <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiU3RvcnlTaGVsZiIsInNob3J0X25hbWUiOiJTdG9yeVNoZWxmIiwiZGVzY3JpcHRpb24iOiJSYW5kb21seSBzZWxlY3QgYm9va3MgZnJvbSB5b3VyIFRCUiBsaXN0IiwiaWNvbnMiOlt7InNyYyI6Imljb24uanBnIiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL2pwZWcifV0sInN0YXJ0X3VybCI6Ii4vIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJ0aGVtZV9jb2xvciI6IiM2NjdlZWEiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI2ZmZmZmZiIsIm9yaWVudGF0aW9uIjoicG9ydHJhaXQiLCJzY29wZSI6Ii4vIn0=">
-  <link rel="stylesheet" href="styles.css">
+    <!-- Icons -->
+    <link rel="apple-touch-icon" href="icon.jpg">
+    <link rel="icon" href="icon.jpg">
+
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <!-- Picker Tab Content -->
-    <div id="pickerTab" class="tab-content active">
-      <div class="header">
-        <h1 class="app-title">📚 StoryShelf</h1>
-        <p class="app-subtitle">What should I read next?</p>
-      </div>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>📚 StoryShelf</h1>
+            <p>What should I read next?</p>
+        </header>
 
-      <div class="form-section">
-        <div class="textarea-container">
-          <textarea
-            id="bookList"
-            placeholder="Enter your to-be-read list, one book per line:
-
-The Seven Husbands of Evelyn Hugo by Taylor Jenkins Reid
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Picker Tab Content -->
+            <div id="picker-tab" class="tab-content active">
+                <div class="picker-section">
+                    <label for="book-list" class="input-label">Enter your to-be-read list (one book per line):</label>
+                    <textarea
+                        id="book-list"
+                        class="book-input"
+                        placeholder="The Seven Husbands of Evelyn Hugo by Taylor Jenkins Reid
 Project Hail Mary by Andy Weir
+Dune by Frank Herbert
 The Midnight Library by Matt Haig
-Klara and the Sun by Kazuo Ishiguro
-The Song of Achilles by Madeline Miller"
-          ></textarea>
-        </div>
+Klara and the Sun by Kazuo Ishiguro"
+                        rows="8"
+                        aria-describedby="input-help"
+                    ></textarea>
+                    <p id="input-help" class="input-help">Add at least 3 books to get personalized recommendations</p>
 
-        <button id="pickBooksBtn" class="btn btn-primary">Pick My Next Books</button>
+                    <button id="pick-books" class="primary-button">Pick My Next Books</button>
 
-        <div id="errorMessage" class="message error-message"></div>
-        <div id="loadingMessage" class="message loading-message">Selecting your perfect reads…</div>
+                    <!-- Error Display -->
+                    <div id="error-message" class="error-message hidden" role="alert"></div>
 
-        <div id="results" class="results">
-          <div id="nextRead" class="book-pick pick-next">
-            <div class="pick-label">Next Read</div>
-            <div class="pick-book"></div>
-          </div>
+                    <!-- Loading Display -->
+                    <div id="loading-message" class="loading-message hidden">
+                        <div class="loading-spinner"></div>
+                        <p>Selecting your perfect reads…</p>
+                    </div>
 
-          <div id="backupChoice" class="book-pick pick-backup">
-            <div class="pick-label">Backup Choice</div>
-            <div class="pick-book"></div>
-          </div>
+                    <!-- Results Display -->
+                    <div id="results-section" class="results-section hidden">
+                        <h2>Your Reading Recommendations</h2>
 
-          <div id="alternativePick" class="book-pick pick-alternative">
-            <div class="pick-label">Alternative Pick</div>
-            <div class="pick-book"></div>
-          </div>
+                        <div class="book-pick next-read">
+                            <div class="pick-header">
+                                <span class="pick-icon">🎯</span>
+                                <h3>Next Read</h3>
+                            </div>
+                            <p id="next-read-book" class="book-title"></p>
+                        </div>
 
-          <button id="pickAgainBtn" class="btn btn-secondary">Pick Again</button>
-        </div>
-      </div>
+                        <div class="book-pick backup-choice">
+                            <div class="pick-header">
+                                <span class="pick-icon">🔄</span>
+                                <h3>Backup Choice</h3>
+                            </div>
+                            <p id="backup-book" class="book-title"></p>
+                        </div>
+
+                        <div class="book-pick alternative-pick">
+                            <div class="pick-header">
+                                <span class="pick-icon">✨</span>
+                                <h3>Alternative Pick</h3>
+                            </div>
+                            <p id="alternative-book" class="book-title"></p>
+                        </div>
+
+                        <button id="pick-again" class="secondary-button">Pick Again</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Tab Content -->
+            <div id="about-tab" class="tab-content">
+                <div class="about-section">
+                    <h2>About StoryShelf</h2>
+                    <p>StoryShelf helps you decide what to read next by randomly selecting books from your to-be-read (TBR) list. Never feel overwhelmed by choice again!</p>
+
+                    <h3>How it works:</h3>
+                    <ol>
+                        <li>Add your book list (one book per line)</li>
+                        <li>Tap "Pick My Next Books"</li>
+                        <li>Get three prioritized recommendations</li>
+                        <li>Start reading and enjoy!</li>
+                    </ol>
+
+                    <h3>Features:</h3>
+                    <ul>
+                        <li>📱 Works offline after installation</li>
+                        <li>🔄 Smart random selection (no duplicates)</li>
+                        <li>🎯 Prioritized recommendations</li>
+                        <li>📚 Book-lover friendly design</li>
+                    </ul>
+
+                    <div class="attribution">
+                        <p><strong>Made by Claude</strong></p>
+                        <p><a href="https://github.com/anthropics/claude-code" target="_blank" rel="noopener">View Source Code</a></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button id="picker-nav" class="nav-button active" data-tab="picker-tab">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Picker</span>
+            </button>
+            <button id="about-nav" class="nav-button" data-tab="about-tab">
+                <span class="nav-icon">ℹ️</span>
+                <span class="nav-label">About</span>
+            </button>
+        </nav>
     </div>
 
-    <!-- About Tab Content -->
-    <div id="aboutTab" class="tab-content">
-      <div class="header">
-        <h1 class="app-title">📚 StoryShelf</h1>
-      </div>
+    <!-- JavaScript -->
+    <script src="script.js"></script>
 
-      <div class="about-content">
-        <div class="about-section">
-          <h3>About StoryShelf</h3>
-          <p>StoryShelf helps you decide what to read next from your ever-growing to-be-read (TBR) list. Simply paste your book list, and let StoryShelf randomly select three prioritized reading recommendations for you.</p>
-          <p>Perfect for book lovers who struggle with choice paralysis when facing their towering book collections!</p>
-        </div>
-
-        <div class="about-section">
-          <h3>How It Works</h3>
-          <p>1. Add your TBR list (one book per line)</p>
-          <p>2. Tap "Pick My Next Books"</p>
-          <p>3. Get three curated picks: your priority read, backup choice, and alternative option</p>
-          <p>4. Don't like the selection? Just pick again!</p>
-        </div>
-
-        <div class="about-section">
-          <h3>Source Code</h3>
-          <p>StoryShelf is open source! Check out the code on <a href="https://github.com/BrandonDevMn/StoryStack-Web" class="about-link" target="_blank">GitHub</a>.</p>
-        </div>
-
-        <div class="about-section">
-          <h3>Attribution</h3>
-          <p>Made by Claude</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Tab Navigation -->
-  <nav class="tab-navigation">
-    <button id="pickerTabBtn" class="tab-button active" data-tab="pickerTab">
-      <span class="tab-icon">📚</span>
-      <span>Picker</span>
-    </button>
-    <button id="aboutTabBtn" class="tab-button" data-tab="aboutTab">
-      <span class="tab-icon">ℹ️</span>
-      <span>About</span>
-    </button>
-  </nav>
-
-  <script src="script.js"></script>
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    }, function(err) {
+                        console.log('ServiceWorker registration failed');
+                    });
+            });
+        }
+    </script>
 </body>
 </html>

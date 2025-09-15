@@ -2,9 +2,43 @@
 
 ## Overview
 
-Build a Progressive Web App (PWA) called **StoryShelf** using vanilla HTML + JavaScript, optimized for iPads and iPhones, that randomly selects books from a “to be read” (TBR) list. The app should be installable on mobile devices and work as a standalone application.
+Build a Progressive Web App (PWA) called **StoryShelf** using vanilla HTML + JavaScript, optimized for iPads and iPhones, that randomly selects books from a "to be read" (TBR) list. The app should be installable on mobile devices and work as a standalone application.
+
+## Development Guidelines
+
+### Code Quality
+- Write simple, easy to read, well-commented code
+- Use only HTML, CSS, and JavaScript (no frameworks or libraries)
+- Ensure code is self-documenting with clear variable and function names
 
 ## Core Functionality
+
+### File Structure
+- **Entry point:** `index.html`
+- **App icon:** `icon.jpg` (expected to be present)
+- Include `manifest.json` for PWA functionality
+- Include `sw.js` (service worker) for offline support
+
+### iOS PWA Requirements
+- Support iOS "Add to Home Screen" functionality
+- Include proper meta tags for iOS Safari
+- Ensure responsive design for iPad and iPhone
+- Handle iOS safe areas and notches
+
+### UI/UX Requirements
+- **Bottom Navigation:** Always include tabs at the bottom of the screen
+- **Left Tab:** Main function of the app (primary feature) - Picker Tab (📚)
+- **Right Tab:** About tab (app information, version, etc.) - About Tab (ℹ️)
+- **Middle Tabs:** Additional features as needed
+- Design should be touch-friendly with appropriate tap targets
+- Follow iOS design patterns and conventions
+
+### Technical Specifications
+- Viewport meta tag optimized for iOS
+- Apple-specific meta tags for PWA behavior
+- Touch icon declarations
+- Service worker for caching and offline functionality
+- Responsive CSS for various iOS device sizes
 
 ### Tab Navigation System
 
@@ -120,17 +154,14 @@ Build a Progressive Web App (PWA) called **StoryShelf** using vanilla HTML + Jav
 ### Required Meta Tags
 
 ```html
-<!-- PWA Configuration -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="StoryShelf">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#667eea">
-
-<!-- Icons -->
-<link rel="icon" type="image/jpeg" href="icon.jpg">
 <link rel="apple-touch-icon" href="icon.jpg">
-<link rel="apple-touch-icon-precomposed" href="icon.jpg">
+<link rel="icon" href="icon.jpg">
 ```
 
 ### Web App Manifest
@@ -176,7 +207,15 @@ Build a Progressive Web App (PWA) called **StoryShelf** using vanilla HTML + Jav
 
 ## File Structure
 
-Create three separate files for better organization and maintainability:
+Create the following files for better organization and maintainability:
+
+### File Requirements
+1. `index.html` - Main entry point with PWA meta tags and configuration
+2. `icon.jpg` - App icon (180x180px recommended)
+3. `manifest.json` - PWA manifest
+4. `sw.js` - Service worker
+5. CSS files for styling
+6. JavaScript files for functionality
 
 **index.html:**
 - HTML structure with semantic markup
@@ -197,6 +236,12 @@ Create three separate files for better organization and maintainability:
 - UI update and state management
 - Tab navigation functionality
 - Event listeners and initialization
+
+**manifest.json:**
+- PWA manifest configuration
+
+**sw.js:**
+- Service worker for offline support
 
 External dependencies:
 
@@ -324,3 +369,7 @@ While not required for initial implementation, consider these potential features
 - Samsung Internet 10+
 - Focus on modern mobile browsers with PWA support
 - Graceful degradation for older browsers (still functional, just not installable)
+
+## Implementation Notes
+
+When implementing this spec, ensure the app works seamlessly on iOS devices and can be added to the home screen for a native-like experience. Follow iOS design patterns and conventions throughout the application to provide users with a familiar interface that feels natural on their devices.
